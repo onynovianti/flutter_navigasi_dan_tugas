@@ -26,33 +26,61 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.all(8),
-        child: ListView.builder(
-          padding: EdgeInsets.all(8),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/item', arguments: item);
-              },
-              child: Card(
-                child: Container(
-                  margin: EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(item.name)),
-                      Expanded(
-                        child: Text(
-                          item.price.toString(),
-                          textAlign: TextAlign.end,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
+        child: ListViewItem(items: items),
+      ),
+    );
+  }
+}
+
+class ListViewItem extends StatelessWidget {
+  const ListViewItem({
+    Key? key,
+    required this.items,
+  }) : super(key: key);
+
+  final List<Item> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.all(8),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/item', arguments: item);
           },
+          child: CardItem(item: item),
+        );
+      },
+    );
+  }
+}
+
+class CardItem extends StatelessWidget {
+  const CardItem({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Container(
+        margin: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Expanded(child: Text(item.name)),
+            Expanded(
+              child: Text(
+                item.price.toString(),
+                textAlign: TextAlign.end,
+              ),
+            )
+          ],
         ),
       ),
     );
